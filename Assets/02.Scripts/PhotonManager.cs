@@ -9,20 +9,27 @@ using UnityEngine.UI;
 public class PhotonManager : MonoBehaviourPunCallbacks
 {
     private readonly string gameVersion = "v1.0";
-    private string UserId = "Ojui";
+    private string userId = "Ojui";
 
-    public TMP_InputField userId;
-    public TMP_InputField roomName;
+    public TMP_InputField userIdText;
+    public TMP_InputField roomNameText;
 
     private void Awake()
     {
         // 게임 버전 지정
         PhotonNetwork.GameVersion = gameVersion;
         // 유저명 지정
-        PhotonNetwork.NickName = UserId;
+        // PhotonNetwork.NickName = userId;
 
         // 서버 접속
         PhotonNetwork.ConnectUsingSettings();
+    }
+
+    private void Start()
+    {
+        userId = PlayerPrefs.GetString("USER_ID", $"USER_{Random.Range(0, 100):00}");
+        userIdText.text = userId;
+        PhotonNetwork.NickName = userId;
     }
 
     // 포톤 서버에 접속했다는 것을 의미
@@ -70,7 +77,7 @@ public class PhotonManager : MonoBehaviourPunCallbacks
         // 통신이 가능한 주인공 캐릭터(탱크) 생성
         PhotonNetwork.Instantiate("Tank", new Vector3(0, 5.0f, 0), Quaternion.identity, 0);
     }
-    
+
 
 
 }
