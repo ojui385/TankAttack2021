@@ -10,6 +10,9 @@ public class TankCtrl : MonoBehaviour
     public float speed = 30.0f;
     private PhotonView pv;
 
+    public Transform firePos;
+    public GameObject cannon;
+
 
     void Start()
     {
@@ -36,6 +39,16 @@ public class TankCtrl : MonoBehaviour
 
             transform.Translate(Vector3.forward * Time.deltaTime * speed * v);
             transform.Rotate(Vector3.up * Time.deltaTime * 100.0f * h);
+
+            if (Input.GetMouseButtonDown(0))
+            {
+                Fire();
+            }
         }
+    }
+
+    void Fire()
+    {
+        Instantiate(cannon, firePos.position, firePos.rotation);
     }
 }
