@@ -31,8 +31,15 @@ public class PhotonManager : MonoBehaviourPunCallbacks
     public override void OnJoinRandomFailed(short returnCode, string message)
     {
         Debug.Log($"code={returnCode}, msg={message}");
+
+        // 룸 속성을 설정
+        RoomOptions ro = new RoomOptions();
+        ro.IsOpen = true;
+        ro.IsVisible = true;    // 룸 목록에 내 방이 보이도록 설정
+        ro.MaxPlayers = 30;
+
         // 룸을 생성 > 자동 입장됨
-        PhotonNetwork.CreateRoom("My Room");
+        PhotonNetwork.CreateRoom("My Room", ro);
     }
 
     // 룸 생성 완료 콜백
@@ -49,7 +56,6 @@ public class PhotonManager : MonoBehaviourPunCallbacks
 
         // 통신이 가능한 주인공 캐릭터(탱크) 생성
         PhotonNetwork.Instantiate("Tank", new Vector3(0, 5.0f, 0), Quaternion.identity, 0);
-        
     }
     
 
