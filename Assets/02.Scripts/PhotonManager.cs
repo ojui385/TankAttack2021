@@ -3,11 +3,16 @@ using System.Collections.Generic;
 using UnityEngine;
 using Photon.Pun;
 using Photon.Realtime;
+using TMPro;
+using UnityEngine.UI;
 
 public class PhotonManager : MonoBehaviourPunCallbacks
 {
     private readonly string gameVersion = "v1.0";
     private string UserId = "Ojui";
+
+    public TMP_InputField userId;
+    public TMP_InputField roomName;
 
     private void Awake()
     {
@@ -24,7 +29,15 @@ public class PhotonManager : MonoBehaviourPunCallbacks
     public override void OnConnectedToMaster()
     {
         Debug.Log("Connected to Photon Server!!!");
-        PhotonNetwork.JoinRandomRoom(); // 랜덤한 룸에 접속 시도
+        // PhotonNetwork.JoinRandomRoom(); // 랜덤한 룸에 접속 시도
+
+        // 로비에 접속
+        PhotonNetwork.JoinLobby();
+    }
+
+    public override void OnJoinedLobby()
+    {
+        Debug.Log("joined lobby!!!");
     }
 
     // 랜덤 룸에 접속 시도했으나, 만들어진 룸이 없어서 실패
