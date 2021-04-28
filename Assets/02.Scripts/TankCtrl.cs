@@ -4,6 +4,7 @@ using UnityEngine;
 using Photon.Pun;
 using UnityStandardAssets.Utility;
 
+[RequireComponent(typeof(AudioSource))]
 public class TankCtrl : MonoBehaviour
 {
     private new Transform transform;
@@ -15,11 +16,15 @@ public class TankCtrl : MonoBehaviour
 
     public Transform cannonMesh;
 
+    private AudioSource audioSource;
+    public AudioClip fireSFX; 
+
 
     void Start()
     {
         transform = GetComponent<Transform>();
         pv = GetComponent<PhotonView>();
+        audioSource = GetComponent<AudioSource>();
 
         if (pv.IsMine)
         {
@@ -57,6 +62,7 @@ public class TankCtrl : MonoBehaviour
     [PunRPC]
     void Fire()
     {
+        audioSource?.PlayOneShot(fireSFX);
         Instantiate(cannon, firePos.position, firePos.rotation);
     }
 }
