@@ -9,6 +9,8 @@ public class Cannon : MonoBehaviour
 
     public GameObject expEffect;
 
+    public string shooter;
+
 
     void Start()
     {
@@ -20,8 +22,8 @@ public class Cannon : MonoBehaviour
     {
         Debug.Log("여기!!");
         GameObject obj = Instantiate(expEffect, transform.position, Quaternion.identity);
-        Destroy(obj, 3.0f);
-        // Destroy(this.gameObject);
+        Destroy(obj, 2.0f);
+        Destroy(this.gameObject);
     }
     
 }

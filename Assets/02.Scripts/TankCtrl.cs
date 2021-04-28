@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using UnityEngine;
 using Photon.Pun;
 using UnityStandardAssets.Utility;
+using TMPro;
 
 [RequireComponent(typeof(AudioSource))]
 public class TankCtrl : MonoBehaviour
@@ -16,6 +17,8 @@ public class TankCtrl : MonoBehaviour
 
     public Transform cannonMesh;
 
+    public TMP_Text userIdText;
+
     private AudioSource audioSource;
     public AudioClip fireSFX; 
 
@@ -25,6 +28,8 @@ public class TankCtrl : MonoBehaviour
         transform = GetComponent<Transform>();
         pv = GetComponent<PhotonView>();
         audioSource = GetComponent<AudioSource>();
+
+        userIdText.text = pv.Owner.NickName;
 
         if (pv.IsMine)
         {
@@ -48,9 +53,10 @@ public class TankCtrl : MonoBehaviour
             transform.Rotate(Vector3.up * Time.deltaTime * 100.0f * h);
 
             // 포탄 발사 로직
+            // RpcTarget.AllViaServer : All과 원리는 같음. 지연시간을 줄임
             if (Input.GetMouseButtonDown(0))
             {
-                pv.RPC("Fire", RpcTarget.All, null);
+                pv.RPC("Fire", RpcTarget.AllViaServer, pv.Owner.NickName);
             }
 
             // 포신 회전 설정
@@ -60,9 +66,10 @@ public class TankCtrl : MonoBehaviour
     }
 
     [PunRPC]
-    void Fire()
+    void Fire(string shooterName)
     {
         audioSource?.PlayOneShot(fireSFX);
-        Instantiate(cannon, firePos.position, firePos.rotation);
+        GameObject _cannon = Instantiate(cannon, firePos.position, firePos.rotation);
+        _cannon.GetComponent<Cannon>().shooter = shooterName;
     }
 }

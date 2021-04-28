@@ -61,8 +61,10 @@ public class PhotonManager : MonoBehaviourPunCallbacks
         ro.IsVisible = true;    // 룸 목록에 내 방이 보이도록 설정
         ro.MaxPlayers = 30;
 
+        roomNameText.text = $"Room_{Random.Range(1, 100):000}";
+
         // 룸을 생성 > 자동 입장됨
-        PhotonNetwork.CreateRoom("My Room", ro);
+        PhotonNetwork.CreateRoom(roomNameText.text, ro);
     }
 
     // 룸 생성 완료 콜백
