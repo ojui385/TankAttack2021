@@ -47,5 +47,17 @@ public class GameManager : MonoBehaviourPunCallbacks
         SceneManager.LoadScene("Lobby");
     }
 
+    // 새로운 유저가 들어왔을 때
+    public override void OnPlayerEnteredRoom(Player newPlayer)
+    {
+        SetRoomInfo();
+    }
+
+    // 유저가 나갔을 때
+    public override void OnPlayerLeftRoom(Player otherPlayer)
+    {
+        SetRoomInfo();
+    }
+
 
 }
