@@ -22,7 +22,7 @@ public class RoomData : MonoBehaviour
             // room_03 (12/30)
             RoomInfoText.text = $"{_roomInfo.Name} ({_roomInfo.PlayerCount}/{_roomInfo.MaxPlayers})";
             // 버튼의 클릭 이벤트에 함수를 연결
-            GetComponent<UnityEngine.UI.Button>().onClick.AddListener( () => OnEnterRoom(_roomInfo.Name) );
+            GetComponent<UnityEngine.UI.Button>().onClick.AddListener(() => OnEnterRoom(_roomInfo.Name));
             // GetComponent<UnityEngine.UI.Button>().onClick.AddListener( delegate() {OnEnterRoom(_roomInfo.Name);});
         }
     }
@@ -34,6 +34,12 @@ public class RoomData : MonoBehaviour
 
     void OnEnterRoom(string roomName)
     {
-        PhotonNetwork.JoinRoom(roomName);
+        // 룸 속성을 설정
+        RoomOptions ro = new RoomOptions();
+        ro.IsOpen = true;
+        ro.IsVisible = true;
+        ro.MaxPlayers = 30;
+
+        PhotonNetwork.JoinOrCreateRoom(roomName, ro, TypedLobby.Default);
     }
 }
